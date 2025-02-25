@@ -4,7 +4,7 @@ from django.db import models
 
 class Departments(models.Model):
     DepartmentID = models.AutoField(primary_key=True)
-    DepartmentName = models.AutoField(max_length=500)
+    DepartmentName = models.CharField(max_length=500)
 
 class Employees(models.Model):
     EmployeeID = models.AutoField(primary_key=True)
