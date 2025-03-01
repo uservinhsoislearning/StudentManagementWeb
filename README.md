@@ -7,7 +7,7 @@ Database(tạm thời): Sqlite
 
 Một số công việc có thể: 
 - Ai làm phần tính năng => xem thêm tính năng nào được không.
-- Back-end sẽ xem có thể đổi sang sql server express không
+- Back-end sẽ xem có thể đổi sang sql server express không/ đổi cái code này sang đề tài của mình
 - Front-end... tạm thời chưa nghĩ ra:D
 - Tìm hiểu cách host cái này ở đâu đấy (Heroku)
 
