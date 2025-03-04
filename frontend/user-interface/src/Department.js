@@ -52,7 +52,7 @@ export class Department extends Component {
             method:'POST',
             headers:{
                 'Accept':'application/json',
-                'Content-type':'application/json'
+                'Content-Type':'application/json'
             },
             body:JSON.stringify({
                 DepartmentName:this.state.DepartmentName
@@ -65,6 +65,46 @@ export class Department extends Component {
         }, (error)=>{
             alert('Failed');
         })
+    }
+
+    updateClick(){
+        fetch(variables.API_URL+'department',{
+            method:'PUT',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                DepartmentID:this.state.DepartmentID,
+                DepartmentName:this.state.DepartmentName
+            })
+        })
+            .then(res=>res.json())
+            .then((result)=>{
+                alert(result);
+                this.refreshList();
+            }, (error)=>{
+                alert('Failed');
+            })
+    }
+
+    deleteClick(id){
+        if(window.confirm('Are you sure?')){
+        fetch(variables.API_URL+'department/'+id,{
+            method:'DELETE',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            }
+        })
+            .then(res=>res.json())
+            .then((result)=>{
+                alert(result);
+                this.refreshList();
+            }, (error)=>{
+                alert('Failed');
+            })
+        }
     }
 
     render() {
@@ -114,7 +154,9 @@ export class Department extends Component {
                             </svg>
                             </button>
                             {/*Lưu ý chỉnh sửa một chút tại có một số element đã bị đổi tên ở các bản cập nhật khác*/}
-                            <button type='button' className='btn btn-light mr-1'>
+                            <button type='button' 
+                            className='btn btn-light mr-1'
+                            onClick={()=>this.deleteClick(dep.DepartmentID)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
@@ -145,12 +187,13 @@ export class Department extends Component {
                             <button type='button'
                             className='btn btn-primary float-start'
                             onClick={()=>this.createClick()}
-                            >Tạo ID</button>:null} {/*Đây là một lệnh if-else: nếu DepartmentID = 0 => sẽ có nút tạo ID */}
+                            >Tạo mới</button>:null} {/*Đây là một lệnh if-else: nếu DepartmentID = 0 => sẽ có nút tạo ID */}
 
                             {DepartmentID!=0?
                             <button type='button'
                             className='btn btn-primary float-start'
-                            >Cập nhật ID</button>:null}
+                            onClick={()=>this.updateClick()}
+                            >Cập nhật</button>:null}
                     </div>
                 </div>
                 </div>
