@@ -32,7 +32,7 @@ def departmentApi(request, id=0):
             return JsonResponse("Update Successfully!", safe=False)
         return JsonResponse("Failed to Update", safe=False)
     elif request.method == 'DELETE':
-        departments = Departments.objects.get(DepartmentsID = id)
+        departments = Departments.objects.get(DepartmentID = id)
         departments.delete()
         return JsonResponse("Deleted Successfully!", safe=False)
     
