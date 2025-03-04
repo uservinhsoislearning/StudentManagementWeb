@@ -14,7 +14,7 @@ export class Employee extends Component {
             modalTitle:'',
             EmployeeName:'',
             EmployeeID:0,
-            department:'',
+            Department:'',
             PhotoFileName:'unknown.png',
             PhotoPath:variables.PHOTO_URL
         }
@@ -52,7 +52,7 @@ export class Employee extends Component {
             modalTitle:'Thêm Nhân Viên',
             EmployeeID:0,
             EmployeeName:'',
-            department:'',
+            Department:'',
             PhotoFileName:'unknown.png'
         })
     }
@@ -62,7 +62,7 @@ export class Employee extends Component {
             modalTitle:'Chỉnh sửa Nhân Viên',
             EmployeeID:emp.EmployeeID,
             EmployeeName:emp.EmployeeName,
-            department:emp.Department,
+            Department:emp.Department,
             PhotoFileName:emp.PhotoFileName
         })
     }
@@ -76,7 +76,7 @@ export class Employee extends Component {
             },
             body:JSON.stringify({
                 EmployeeName:this.state.EmployeeName,
-                department:this.state.Department,
+                Department:this.state.Department,
                 PhotoFileName:this.state.PhotoFileName
             })
         })
@@ -99,7 +99,7 @@ export class Employee extends Component {
             body:JSON.stringify({
                 EmployeeID:this.state.EmployeeID,
                 EmployeeName:this.state.EmployeeName,
-                department:this.state.Department,
+                Department:this.state.Department,
                 PhotoFileName:this.state.PhotoFileName
             })
         })
@@ -131,6 +131,22 @@ export class Employee extends Component {
         }
     }
 
+    imageUpload=(e)=>{
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("file", e.target.files[0],e.target.files[0].name);
+
+        fetch(variables.API_URL+'employee/savefile', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            this.setState({PhotoFileName:data});
+        })
+    }
+
     render() {
         const {
             departments,
@@ -138,7 +154,7 @@ export class Employee extends Component {
             modalTitle,
             EmployeeName,
             EmployeeID,
-            department,
+            Department,
             PhotoFileName,
             PhotoPath
         }=this.state;
@@ -213,14 +229,9 @@ export class Employee extends Component {
                                 <div className='input-group mb-3'>
                                     <span className='input-group-text'>Tên nhân viên</span>
                                     <input type='text' className='form-control'
-                                        value={EmployeeName}
-                                        onChange={this.changeEmployeeName}/>
+                                    value={EmployeeName}
+                                    onChange={this.changeEmployeeName}/>
                                 </div>
-                            </div>
-
-                            <div className='p-2 w-50 bd-highlight'>
-                                <img width='250px' height='250px'
-                                src={PhotoPath+PhotoFileName}/>
                             </div>
 
                             <div className='p-2 w-50 bd-highlight'>
@@ -228,26 +239,32 @@ export class Employee extends Component {
                                     <span className='input-group-text'>Ban</span>
                                     <select className='form-select'
                                     onChange={this.changeDepartment}
-                                    value={department}>
-                                        {departments.map(dep=><options key={dep.DepartmentID}>
+                                    value={Department}>
+                                        {departments.map(dep=><option key={dep.DepartmentID}>
                                             {dep.DepartmentName}
-                                        </options>)}
+                                        </option>)}
                                     </select>
                                 </div>
                             </div>
 
-                            {DepartmentID==0?
-                            <button type='button'
-                            className='btn btn-primary float-start'
-                            onClick={()=>this.createClick()}
-                            >Tạo mới</button>:null} {/*Đây là một lệnh if-else: nếu DepartmentID = 0 => sẽ có nút tạo mới */}
+                            <div className='p-2 w-50 bd-highlight'>
+                                <img width='250px' height='250px'
+                                src={PhotoPath+PhotoFileName}/>
+                                <input className='m-2' type='file' onChange={this.imageUpload}></input>
+                            </div>
 
-                            {DepartmentID!=0?
-                            <button type='button'
-                            className='btn btn-primary float-start'
-                            onClick={()=>this.updateClick()}
-                            >Cập nhật</button>:null}
                         </div>
+                        {EmployeeID==0?
+                        <button type='button'
+                        className='btn btn-primary float-start'
+                        onClick={()=>this.createClick()}
+                        >Tạo mới</button>:null} {/*Đây là một lệnh if-else: nếu DepartmentID = 0 => sẽ có nút tạo mới */}
+
+                        {EmployeeID!=0?
+                        <button type='button'
+                        className='btn btn-primary float-start'
+                        onClick={()=>this.updateClick()}
+                        >Cập nhật</button>:null}
                     </div>
                 </div>
                 </div>
