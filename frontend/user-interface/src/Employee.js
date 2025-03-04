@@ -4,9 +4,9 @@ export class Employee extends Component {
     render() {
         return (
             <div>
-                <h2>
+                <h3>
                     Employee page
-                </h2>
+                </h3>
             </div>
         )
     }
